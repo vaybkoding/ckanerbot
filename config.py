@@ -32,9 +32,9 @@ REQUEST_INTERVAL = float(os.getenv("REQUEST_INTERVAL", "0.35" if TONAPI_KEY else
 # --- Что мониторить ---------------------------------------------------------
 # Адреса коллекций через запятую. У Telegram Gifts каждый тип подарка (Plush Pepe и т.д.)
 # — отдельная коллекция. Адрес берите со страницы коллекции на Getgems / Tonviewer.
-UPGRADE_COLLECTIONS = _list("UPGRADE_COLLECTIONS")
+UPGRADE_COLLECTIONS = _list("EQBlBJ4n01pmYez5VPd8Wo598s8agbQCyVOjucXKxLDAi9r7", "EQDc08YxzZWtlKAohSybNc3kXAkAPPtHch-jY_E6KMQ3b1mn")
 # Коллекции для автоскана «забытых NFT» (по умолчанию те же).
-FORGOTTEN_COLLECTIONS = _list("FORGOTTEN_COLLECTIONS") or UPGRADE_COLLECTIONS
+FORGOTTEN_COLLECTIONS = _list("EQBlBJ4n01pmYez5VPd8Wo598s8agbQCyVOjucXKxLDAi9r7", "EQDc08YxzZWtlKAohSybNc3kXAkAPPtHch-jY_E6KMQ3b1mn") or UPGRADE_COLLECTIONS
 
 # --- Параметры «Свежий апгрейд» --------------------------------------------
 UPGRADE_POLL_SECONDS = int(os.getenv("UPGRADE_POLL_SECONDS", "45"))  # как часто опрашивать коллекции
