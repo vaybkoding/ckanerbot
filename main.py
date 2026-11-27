@@ -87,8 +87,8 @@ def fmt_ts(ts: Optional[float]) -> str:
     return datetime.fromtimestamp(ts, tz=timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
 
-def nft_links(addr_raw: str, name: str = "") -> str:
-    """Ссылки на NFT: Getgems, Tonscan, Tonviewer и (эвристически) Fragment для подарков."""
+def nft_links(addr_raw: str, name: str = "", col_addr: Optional[str] = None) -> str:
+    """Ссылки на NFT: Getgems, Tonscan, Tonviewer и Fragment."""
     a = to_friendly(addr_raw)
     links = [
         f'<a href="https://getgems.io/nft/{a}">Getgems</a>',
@@ -96,11 +96,13 @@ def nft_links(addr_raw: str, name: str = "") -> str:
         f'<a href="https://tonviewer.com/{a}">Tonviewer</a>',
     ]
     # Подарки называются вроде "Plush Pepe #123" -> fragment.com/gift/plushpepe-123 (эвристика!)
-    m = re.match(r"^(.+?)\s*#(\d+)$", name or "")
+    m = re.match(r"^(.+?)\s*#(\d+)$", (name or "").strip())
     if m:
         slug = re.sub(r"[^a-z0-9]", "", m.group(1).lower())
         if slug:
             links.append(f'<a href="https://fragment.com/gift/{slug}-{m.group(2)}">Fragment</a>')
+    elif col_addr:
+        links.append(f'<a href="https://fragment.com/gifts">Fragment</a>')
     return " · ".join(links)
 
 
@@ -397,7 +399,7 @@ class Monitor:
             f"• Pattern: {esc(n['pattern'] or '—')}\n"
             f"• Background: {esc(n['background'] or '—')}\n\n"
             f"{owner_line}\n{verdict}{price}\n{extra}\n\n"
-            f"{nft_links(n['address'], n['name'])}"
+            f"{nft_links(n['address'], n['name'], n.get('collection'))}"
         )
 
 
